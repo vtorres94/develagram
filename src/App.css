@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.App-login {
+  width: 400;
+  height: '200px';
+  background-color: 'cyan';
+  border: '1px solid black';
+  box-shadow: black;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
