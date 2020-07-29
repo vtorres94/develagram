@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import firebase from 'firebase';
-import UserProvider from './reducers/user-context';
+import UserContextProvider from './layout/context/user-context';
 
 firebase.initializeApp({
   apiKey: "AIzaSyB_2WDVugPP6lHmpL3IjRC84mSNx1LeIok",
@@ -18,11 +18,11 @@ firebase.initializeApp({
 });
 
 ReactDOM.render(
-  <UserProvider>
+  <UserContextProvider>
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  </UserProvider>
+  </UserContextProvider>
   ,
   document.getElementById('root')
 );

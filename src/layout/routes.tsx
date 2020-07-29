@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
-import { useUser } from '../reducers/user-context';
+import React, { useEffect, useContext } from 'react';
+import { useUser } from './context/user-context';
+
 import {
     BrowserRouter as Router,
     Link,

@@ -1,8 +1,10 @@
-import React from 'react';
-import { useUser } from '../reducers/user-context';
+import React, { useContext } from 'react';
+import { useUser } from './context/user-context';
 import * as firebase from 'firebase';
-import { Segment, Responsive, Header as TextHeader, Button, Image } from 'semantic-ui-react';
+import { Segment, Responsive, Header as TextHeader, Button, Image, Icon } from 'semantic-ui-react';
 import { ReactComponent as Logo } from '../assets/icons/desarrollo-web.svg'
+import { headerStyles, headerLogoStyle, headerButtonGroup } from './styles';
+import UserMenu from './components/userMenu';
 import { Link } from 'react-router-dom';
 
 export interface IHeaderProps {}
@@ -17,32 +19,35 @@ const Header: React.SFC<IHeaderProps> = props => {
     return(
         <div>
             <Segment.Group
-                className="banner"
-                style={{
-                    position: 'static',
-                    backgroundColor: 'black',
-                    height: '350px',
-                    textAlign: 'center',
-                    marginBottom: '0'
-                }}
+                // className="banner"
+                style={ headerStyles }
             >
-                <TextHeader as='h1' color='black' inverted style={{ fontSize: 60, marginTop: 90, fontFamily: 'Jazz LET'}}>
-                    <TextHeader.Content>
-                        Develagram
-                    </TextHeader.Content>
-                    <TextHeader.Subheader>
-                        <Logo style={{ width: 80, height: 80}} />
-                    </TextHeader.Subheader>
-                </TextHeader>
-                {user?
-                    <Image avatar floated='right' src={user.photoURL}/>
-                : null}
+                <Responsive as={Segment}>
+                    <TextHeader as={Link} color='black' style={ headerLogoStyle } to='/'>
+                        <TextHeader.Content>
+                            Develagram
+                        </TextHeader.Content>
+                            
+                    </TextHeader>
+                    {user?
+                    <div style={{ position: 'absolute', top: '140px', right: 0, width: '100px' }}>
+                        <Button icon='photo' circular></Button>
+                        <UserMenu/>
+                    </div>
+                    : null}
+                    {/* {user?
+                        <div>
+                            <Image avatar floated='right' src={user.img}/>
+                            <UserMenu/>
+                        </div>
+                    :
+                        <Segment floated="right" compact >
+                            <Icon name='photo'/>
+                            <Icon name='user'/>
+                        </Segment>
+                    } */}
+                </Responsive>
             </Segment.Group>
-            <Button.Group attached='bottom' size='mini' color='black' floated='right'>
-                <Button floated='right' as={Link} to='/'>Inicio</Button>
-                <Button floated='right'>Info</Button>
-                <Button floated='right' as={Link} to='/login'>Login</Button>
-            </Button.Group>
         </div>
     )
 }
