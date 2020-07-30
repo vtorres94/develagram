@@ -18,7 +18,7 @@ const Routes: React.SFC = (props) => {
   return (
       <Switch>
         <Route path="/" exact component={Index}/>
-        <Route path="/login" component={Login}/>
+        <Route path="/login" component={Login} />
         <Route path="/registry">
           Registro
         </Route>

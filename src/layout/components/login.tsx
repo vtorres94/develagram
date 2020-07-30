@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import * as firebase from 'firebase';
 import { useUser }  from '../context/user-context';
-import { Segment, Responsive, Header, Input, Button, Icon, Grid } from 'semantic-ui-react';
+import { Segment, Responsive, Header, Input, Button, Icon, Grid, Modal} from 'semantic-ui-react';
 import { RouteComponentProps } from 'react-router-dom';
 import { loginStyles } from './styles'
+import { TextField } from '@material-ui/core';
 export interface LoginProps extends RouteComponentProps {}
 
 const Login: React.SFC<LoginProps> = props => {
     const { setUser, login } = useUser();
     const [ email, setEmail ] = useState('');
     const [ pass, setPass ] = useState('');
+    const [ open, setOpen ] = useState<boolean>(true);
     const handleAuth = () => {
         login(email, pass);
     }
@@ -23,37 +25,57 @@ const Login: React.SFC<LoginProps> = props => {
             })
             .catch(error => console.log('ERROR ' + error.code + ' ' + error.message));
     }
+    const handleClose = () => {
+        props.history.goBack();
+        setOpen(false)
+    }
     return(
-        <Segment.Group
-            style={loginStyles}
+        <Modal
+            open={open}
+            centered
+            closeOnEscape={true}
+            closeIcon
+            onClose={handleClose}
+            closeOnTriggerBlur
         >
-            <Responsive>
-                <Header as='h1' color='blue'>
-                    <Header.Content>
-                        Login<br />
-                        <Icon name="lock" />
-                    </Header.Content>
-                </Header>
-                <label>Email </label><br />
-                <Input
-                    value={email}
-                    onChange={event => setEmail(event.currentTarget.value)}
-                /><br />
-                <label>Password </label><br />
-                <Input
-                    type='Password'
-                    value={pass}
-                    onChange={event => setPass(event.currentTarget.value)}
-                /><pre />
-                <label>No tienes una cuenta? </label><a href={'/register'}>Registrate</a><pre />
-                <Button color='blue' onClick={handleAuth}>
-                    Login
-                        </Button>
-                <Button color='red' onClick={handleAuthFirebase}>
-                    Login with Google
-                        </Button>
-            </Responsive>
-        </Segment.Group>
+            <Modal.Content>
+                <Segment.Group
+                    style={{backgroundColor: 'white'}}
+                >
+                    <Responsive>
+                        <Header as='h1' color='blue'>
+                            <Header.Content>
+                                Login<br />
+                                <Icon name="lock" />
+                            </Header.Content>
+                        </Header>
+                        <TextField
+                            label='Correo'
+                            value={email}
+                            onChange={event => setEmail(event.currentTarget.value)}
+                            variant='outlined'
+                        /><br />
+                        <label>Password </label><br />
+                        <TextField
+                            label='Contraseña'
+                            type='Password'
+                            value={pass}
+                            onChange={event => setPass(event.currentTarget.value)}
+                            variant='outlined'
+                            color='secondary'
+                        /><pre />
+                        <label>No tienes una cuenta? </label><a href={'/register'}>Registrate</a><pre />
+                        <Button color='blue' onClick={handleAuth}>
+                            Login
+                                </Button>
+                        <Button color='red' onClick={handleAuthFirebase}>
+                            Login with Google
+                                </Button>
+                    </Responsive>
+                </Segment.Group>
+            </Modal.Content>
+            
+        </Modal>
     );
 }
 

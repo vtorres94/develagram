@@ -11,7 +11,7 @@ const Body: React.SFC<IBodyProps> = props => {
         console.log('Archivo : '+ src);
     }
     return (
-        <div style={{ minHeight: '800px'}}>
+        <div style={{ backgroundColor: '#fafafa', minHeight: '700px'}}>
             <Routes/> 
         </div>
     );

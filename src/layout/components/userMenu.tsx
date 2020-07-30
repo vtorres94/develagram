@@ -23,22 +23,22 @@ const UserMenu = () => {
                         Inbox
                     </Menu.Item>
                 </Link>
-                <Link onClick={() => setActiveItem('spam')} to='/spam'>
+                <Link onClick={() => setActiveItem('profile')} to='/profile'>
                     <Menu.Item
-                        name='spam'
-                        active={activeItem === 'spam'}
+                        name='profile'
+                        active={activeItem === 'profile'}
                     >
                         <Label>51</Label>
-                        Spam
+                        Profile
                     </Menu.Item>
                 </Link>
-                <Link onClick={() => setActiveItem('logout')} to='/logout'>
+                <Link onClick={handleLogOut} to='/'>
                     <Menu.Item
                         name='logout'
                         active={activeItem === 'logout'}
                     >
                         <Label>1</Label>
-                        Updates
+                        LogOut
                     </Menu.Item>
                 </Link>
             </Menu>

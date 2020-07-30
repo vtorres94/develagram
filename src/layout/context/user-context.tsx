@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import axios from 'axios';
 import UserModel from '../../models/User.model';
 
@@ -12,21 +12,44 @@ export const UserContext = React.createContext<Partial<ContextProps>>({});
 
 export default function UserContextProvider(props: any) {
   const [user, setUser] = useState<UserModel | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
-  const login = (email: string, password: string) => {
-      axios
+  useEffect(()=>{
+    getUser(window.sessionStorage.getItem('jwt'));
+  }, []);
+  const login = async (email: string, password: string) => {
+      await axios
         .post('http://localhost:3333/api/v1/users/login', {
           email,
           password
         })
         .then(response => {
-          // setUser({ token: response.data.token})
+          console.log(response);
+          setError(false);
           window.sessionStorage.setItem('jwt', response.data.token)
+          getUser(response.data.token);
         })
         .catch(error => {
-          throw new Error('Error al iniciar sesión ' + error)
+              console.log('error al iniciar sesion')
+              setError(true);
         })
     return user;
+  }
+
+  const getUser = async (token: string | null) => {
+    await axios
+      .get('http://localhost:3333/api/v1/users/', {
+        headers: { 
+          Authorization: "Bearer " + token
+        }
+      })
+      .then(response => {
+        console.log(response)
+        setUser({ email: response.data.email, user: response.data.username, img: 'image', active: true })
+      })
+      .catch(error => {
+        console.log('error despues de iniciar sesion')
+      })
   }
 
   const logout = useCallback(() => {
