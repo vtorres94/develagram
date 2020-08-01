@@ -5,21 +5,26 @@ import UserModel from '../../models/User.model';
 export interface ContextProps {
   user: UserModel | null,
   setUser: any,
+  signIn: any,
   login: any,
-  logout: any
+  logout: any,
+  loading: boolean,
+  error: boolean
 }
 export const UserContext = React.createContext<Partial<ContextProps>>({});
-
+const api = 'http://localhost:3333/api/v1/users/'
 export default function UserContextProvider(props: any) {
   const [user, setUser] = useState<UserModel | null>(null);
   const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(()=>{
     getUser(window.sessionStorage.getItem('jwt'));
   }, []);
+
   const login = async (email: string, password: string) => {
       await axios
-        .post('http://localhost:3333/api/v1/users/login', {
+        .post(api + 'login', {
           email,
           password
         })
@@ -36,9 +41,29 @@ export default function UserContextProvider(props: any) {
     return user;
   }
 
+  const signIn = async (email: string, password: string, phone: string, name: string) => {
+    await axios
+      .post(api + 'signin', {
+        email,
+        password,
+        phone,
+        name,
+        username : email
+      })
+      .then(response => {
+        console.log(response);
+        setError(false);
+      })
+      .catch(error => {
+        console.log('error al crear usuario')
+        setError(true);
+      })
+  return user;
+}
+
   const getUser = async (token: string | null) => {
     await axios
-      .get('http://localhost:3333/api/v1/users/', {
+      .get(api, {
         headers: { 
           Authorization: "Bearer " + token
         }
@@ -61,8 +86,11 @@ export default function UserContextProvider(props: any) {
     return ({
       user,
       setUser,
+      signIn,
       login,
-      logout
+      logout,
+      loading,
+      error
     })
   }, [user]);
 

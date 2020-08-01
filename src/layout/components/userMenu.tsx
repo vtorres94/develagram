@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Popup, Input, Label, Menu } from 'semantic-ui-react'
+import { Button, Popup, Label, Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import { useUser } from '../context/user-context';
 
@@ -15,9 +15,9 @@ const UserMenu = () => {
             <Menu vertical>
                 <Link onClick={() => setActiveItem('inbox')} to='/inbox'>
                     <Menu.Item
-                    name='inbox'
-                    active={activeItem === 'inbox'}
-                    to='/inbox'
+                        name='inbox'
+                        active={activeItem === 'inbox'}
+                        to='/inbox'
                     >
                         <Label color='teal'>51</Label>
                         Inbox

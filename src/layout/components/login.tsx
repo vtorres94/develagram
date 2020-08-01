@@ -8,12 +8,13 @@ import { TextField } from '@material-ui/core';
 export interface LoginProps extends RouteComponentProps {}
 
 const Login: React.SFC<LoginProps> = props => {
-    const { setUser, login } = useUser();
+    const { user, setUser, login } = useUser();
     const [ email, setEmail ] = useState('');
     const [ pass, setPass ] = useState('');
     const [ open, setOpen ] = useState<boolean>(true);
-    const handleAuth = () => {
-        login(email, pass);
+    const handleAuth = async () => {
+        await login(email, pass);
+        if (user?.user !== '') { props.history.push('/')} else { console.log('no entro al if perro')}
     }
     const handleAuthFirebase = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -37,40 +38,42 @@ const Login: React.SFC<LoginProps> = props => {
             closeIcon
             onClose={handleClose}
             closeOnTriggerBlur
+            size='mini'
         >
             <Modal.Content>
-                <Segment.Group
-                    style={{backgroundColor: 'white'}}
-                >
-                    <Responsive>
-                        <Header as='h1' color='blue'>
+                <Segment.Group>
+                    <Responsive clearing style={{ textAlign: 'center', height: '350px' }}>
+                        <Header as='h1' color='blue' style={{ marginTop: '50px'}}>
                             <Header.Content>
                                 Login<br />
                                 <Icon name="lock" />
                             </Header.Content>
                         </Header>
                         <TextField
+                            style={{ width: '70%' }}
                             label='Correo'
                             value={email}
                             onChange={event => setEmail(event.currentTarget.value)}
                             variant='outlined'
-                        /><br />
-                        <label>Password </label><br />
+                            size='small'
+                        /><pre />
                         <TextField
+                            style={{ width: '70%' }}
                             label='Contraseña'
                             type='Password'
                             value={pass}
                             onChange={event => setPass(event.currentTarget.value)}
                             variant='outlined'
                             color='secondary'
+                            size='small'
                         /><pre />
                         <label>No tienes una cuenta? </label><a href={'/register'}>Registrate</a><pre />
-                        <Button color='blue' onClick={handleAuth}>
+                        <Button color='blue' onClick={handleAuth} >
                             Login
-                                </Button>
+                        </Button>
                         <Button color='red' onClick={handleAuthFirebase}>
                             Login with Google
-                                </Button>
+                        </Button>
                     </Responsive>
                 </Segment.Group>
             </Modal.Content>
