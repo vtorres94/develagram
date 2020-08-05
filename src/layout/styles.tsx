@@ -1,17 +1,18 @@
 export const headerStyles = {
     position: 'static',
-    height: '200px',
+    height: '60px',
     textAlign: 'center',
     marginBottom: '0',
+    minWidth: '350px'
 }
 
 export const headerLogoStyle = {
     position: 'absolute',
-    fontSize: 60,
-    marginTop: 50,
-    left: 20,
-    fontFamily: 'Jazz LET',
-    floated: 'left'
+    fontSize: 30,
+    left: 0,
+    fontFamily: 'Pacifico',
+    floated: 'left',
+    marginRight: '50%'
 }
 
 export const headerButtonGroup = {

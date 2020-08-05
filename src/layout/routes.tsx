@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from 'react';
 import { useUser } from './context/user-context';
 
 import {
-    BrowserRouter as Router,
     Link,
     NavLink,
     Route,
@@ -13,7 +12,7 @@ import Index from './components/index';
 import Login from './components/login';
 
 
-const Routes: React.SFC = (props) => {
+const Routes = () => {
   const { user, setUser } = useUser();
   return (
       <Switch>

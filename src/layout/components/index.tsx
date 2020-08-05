@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Responsive, Segment, Grid, Image, Header, Button, Icon, Label } from 'semantic-ui-react';
 import { TextField } from '@material-ui/core';
 import FileUpload from '../components/fileUpload'
@@ -32,6 +32,13 @@ const Index: React.SFC = (props:IIndexProps) => {
         passwordValid: true,
         confirmPasswordValid: true
     });
+
+    const [ ww, setWw ] = useState<number>(window.innerWidth);
+    
+    useEffect(()=>{
+        window.addEventListener("resize", () => setWw(typeof window !== "undefined" ? window.innerWidth : 0))
+    }, []);
+
     const validateFields = () => {
         setState({
             ...state,
@@ -44,10 +51,28 @@ const Index: React.SFC = (props:IIndexProps) => {
     }
     const registrarUsuario = async () => {
         await validateFields();
-        signIn(state.email, state.password, state.phone, state.name);
+        const { emailValid, passwordValid, phoneValid, nameValid } = state;
+        if (emailValid && passwordValid && phoneValid && nameValid) {
+            const response = await signIn(state.email, state.password, state.phone, state.name);
+            console.log(response)
+            switch(response?.data) {
+                case 'email error':
+                    setState({...state, emailValid: false})
+                    break;
+                case 'password error':
+                    setState({...state, passwordValid: false})
+                    break;
+                case 'phone error':
+                    setState({...state, phoneValid: false})
+                    break;
+                case 'name error':
+                    setState({...state, nameValid: false})
+                    break;
+            }
+        }
     }
     return(
-        <Segment.Group style={{ marginTop: '25px', marginLeft: '10%', marginRight: '10%' }}>
+        <Segment.Group style={{ marginTop: '25px', marginLeft: ww < 700 ? '0%' : '25%', marginRight: ww > 700 ? '25%' : '0%' }}>
         {user?
             <Responsive as={Segment}>
             <Grid>

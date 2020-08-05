@@ -9,7 +9,7 @@ export interface ContextProps {
   login: any,
   logout: any,
   loading: boolean,
-  error: boolean
+  error: boolean,
 }
 export const UserContext = React.createContext<Partial<ContextProps>>({});
 const api = 'http://localhost:3333/api/v1/users/'
@@ -53,9 +53,10 @@ export default function UserContextProvider(props: any) {
       .then(response => {
         console.log(response);
         setError(false);
+        return response
       })
       .catch(error => {
-        console.log('error al crear usuario')
+        console.log(error.message)
         setError(true);
       })
   return user;

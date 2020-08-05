@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { Button, Popup, Label, Menu } from 'semantic-ui-react'
+import { Icon, Popup, Label, Menu, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import { useUser } from '../context/user-context';
 
-const UserMenu = () => {
+export interface IUserMenuProps {
+}
+const UserMenu: React.SFC<IUserMenuProps> = props => {
     const { logout } = useUser();
     const [ activeItem, setActiveItem ] = useState<string>();
     const handleLogOut = () => {
@@ -11,7 +13,7 @@ const UserMenu = () => {
         setActiveItem('logout');
     }
     return (
-        <Popup trigger={<Button icon='user' circular as={Link} to="/user"/>} flowing hoverable position="bottom center">
+        <Popup trigger={<Link to='/user'><Icon color='black' name='user' size='large' /></Link>} flowing hoverable position="bottom center">
             <Menu vertical>
                 <Link onClick={() => setActiveItem('inbox')} to='/inbox'>
                     <Menu.Item
@@ -36,6 +38,7 @@ const UserMenu = () => {
                     <Menu.Item
                         name='logout'
                         active={activeItem === 'logout'}
+                        icon='logout'
                     >
                         <Label>1</Label>
                         LogOut

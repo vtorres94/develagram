@@ -20,7 +20,7 @@ firebase.initializeApp({
 ReactDOM.render(
   <UserContextProvider>
     <React.StrictMode>
-      <App />
+        <App />
     </React.StrictMode>
   </UserContextProvider>
   ,

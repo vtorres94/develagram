@@ -4,12 +4,15 @@ import Footer from './layout/footer';
 import Header from './layout/header';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-function App() {
+const App = () => {
+
   return (
     <Router>
-      <Header></Header>
-      <Body></Body>
-      <Footer></Footer>
+      <div>
+        <Header></Header>
+        <Body></Body>
+        <Footer></Footer>
+      </div>
     </Router>
   );
 }
